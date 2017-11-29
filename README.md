@@ -12,10 +12,11 @@ Connections:
 
   Roborio:
     PWM 0 --> Victor
-    PWM 1 --> Button Placed at point A
-    PWM 2 --> Button Placed at point B
-    PWM 3 --> Button Placed at point C
-    PWM 4 --> Button Placed at point D
+    PWM 1 --> Servo
+    PWM 2 --> Button Placed at point A
+    PWM 3 --> Button Placed at point B
+    PWM 4 --> Button Placed at point C
+    PWM 5 --> Button Placed at point D
 
   Driver Station:
     Port 0 --> Controller
