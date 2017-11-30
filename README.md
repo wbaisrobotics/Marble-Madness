@@ -5,7 +5,7 @@ Victor (motor) is controlled by the Right X Axis on the controller
 The system will print out to console any time that a button is newly pressed (with the name of the button), along with the time since the last press of any button.
 
 For every button:
-  Connect one side of the button to the voltage port on the roborio, the other to it's cooresponding PWM signal port
+  Connect one side of the button to the voltage port on the roborio, the other to it's corresponding DIO signal port
   Make sure that the buttons are connected so that current flows when the buttons are pressed.
 
 Connections:
@@ -13,10 +13,10 @@ Connections:
   Roborio:
     PWM 0 --> Victor
     PWM 1 --> Servo
-    PWM 2 --> Button Placed at point A
-    PWM 3 --> Button Placed at point B
-    PWM 4 --> Button Placed at point C
-    PWM 5 --> Button Placed at point D
+    DIO 0 --> Button Placed at point A
+    DIO 1 --> Button Placed at point B
+    DIO 2 --> Button Placed at point C
+    DIO 3 --> Button Placed at point D
 
   Driver Station:
     Port 0 --> Controller

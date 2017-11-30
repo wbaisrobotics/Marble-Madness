@@ -18,10 +18,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * 	PWM 0 --> Victor
  * 	PWM 1 --> Servo
- * 	PWM 2 --> Button Placed at point A
- *  	PWM 3 --> Button Placed at point B
- * 	PWM 4 --> Button Placed at point C
- * 	PWM 5 --> Button Placed at point D
+ * 	DIO 0 --> Button Placed at point A
+ *  	DIO 1 --> Button Placed at point B
+ *  DIO 2 --> Button Placed at point C
+ * 	DIO 3 --> Button Placed at point D
  * 
  * Driver Station:
  * 
@@ -65,10 +65,10 @@ public class Robot extends IterativeRobot {
 		
 		pilot = new JoystickController (0);
 		
-		pointA = new DebouncedDigitalInput (2); //Initializes the A button at PWM 2
-		pointB = new DebouncedDigitalInput (3); //Initializes the B button at PWM 3
-		pointC = new DebouncedDigitalInput (4); //Initializes the C button at PWM 4
-		pointD = new DebouncedDigitalInput (5); //Initializes the D button at PWM 5
+		pointA = new DebouncedDigitalInput (0); //Initializes the A button at DIO 0
+		pointB = new DebouncedDigitalInput (1); //Initializes the B button at DIO 1
+		pointC = new DebouncedDigitalInput (2); //Initializes the C button at DIO 2
+		pointD = new DebouncedDigitalInput (3); //Initializes the D button at DIO 3
 	
 		timer = new Timer();
 		
