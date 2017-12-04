@@ -5,38 +5,38 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 /**
- * Practice Competition robot, can drive the motor using values from the controller, move the servo according to the SmartDashboard,
- *  and detect changes in the digital inputs (wired to the buttons)
+ * Practice Competition - Marble Game 
  * 
- * @author orianleitersdorf
+ * @author Orian Leitersdorf
+ *
+ * December 4th, 2017
  *
  */
 public class Robot extends IterativeRobot {
 	
 	
-	public static enum MARBLE_LOCATION {STILL_NOT_PLACED, AB, BC, CD, DE, EA};
-	private MARBLE_LOCATION marble;
+	public static enum MARBLE_LOCATION {STILL_NOT_PLACED, AB, BC, CD, DE, EA}; /** The possible locations that the marble could be in **/
+	private MARBLE_LOCATION marble; /** Object representing the marbles current location **/
 	
 	
-	private Victor motor;
+	private Victor motor; /** The motor used between points A and B. (Connected through a Victor SP) **/
 	
-	private Servo servo;
+	private Servo servo; /** The servo motor used in the center **/
 	
-	private DebouncedDigitalInput pointA;
-	private DebouncedDigitalInput pointB;
-	private DebouncedDigitalInput pointC;
-	private DebouncedDigitalInput pointD;
-	private DebouncedDigitalInput pointE;
+	private DebouncedDigitalInput pointA; /** The button at point A **/
+	private DebouncedDigitalInput pointB; /** The button at point B **/
+	private DebouncedDigitalInput pointC; /** The button at point C **/
+	private DebouncedDigitalInput pointD; /** The button at point D **/
+	private DebouncedDigitalInput pointE; /** The button at point E **/
 	
-	private Timer timer;
+	private Timer timer; /** General timer for printing out the time differences between the button clicks **/
+	private double lastTime; /** Last time that a button was clicked **/
 	
-	private double lastTime;
-	
-	private Timer MotorTimer;
-	private Timer ServoTimer;
+	private Timer MotorTimer; /** Timer used in order to determine when to start turning the motor **/
+	private Timer ServoTimer; /** Timer used in order to automatically change the servo's position with time **/
 
 	/**
-	 * Sets up digital inputs, motors, controllers, and timer
+	 * Sets up digital inputs, motors, controllers, and timers
 	 */
 	@Override
 	public void robotInit() {
@@ -51,16 +51,17 @@ public class Robot extends IterativeRobot {
 		pointD = new DebouncedDigitalInput (Constants.D_BUTTON_PORT);
 		pointE = new DebouncedDigitalInput (Constants.E_BUTTON_PORT);
 	
+		// Main timer
 		timer = new Timer();
-		
 		timer.reset();
 		timer.start();
 		
-		
+		// Motor timer
 		MotorTimer = new Timer();
 		MotorTimer.reset();
 		MotorTimer.start();
 		
+		// Servo timer
 		ServoTimer = new Timer();
 		ServoTimer.reset();
 		ServoTimer.start();
@@ -72,11 +73,11 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopInit () {
 		
-		marble = MARBLE_LOCATION.STILL_NOT_PLACED;
+		setMarbleLocation (MARBLE_LOCATION.STILL_NOT_PLACED); //Reset the marble's position
 		
-		setMotors();
+		setMotors(); //Change the motors accordingly
 		
-		lastTime = timer.get();
+		lastTime = timer.get(); //Reset the main timer's last time
 		
 	}
 
@@ -89,38 +90,52 @@ public class Robot extends IterativeRobot {
 		double currentTime = timer.get();
 		
 		if (pointA.isNewPressed()) {
-			System.out.println("A Button Pressed at: " + currentTime + " seconds from the start of the robot, " + (currentTime - lastTime) + " since last press of a button");
+			
+			logButtonPress ("A", currentTime);
 			lastTime = currentTime;
 			
-			marble = MARBLE_LOCATION.AB;
+			setMarbleLocation (MARBLE_LOCATION.AB);
+			
+			//When marble reaches point A, start the timer so that the motor waits a given amount of time and then start the motor
 			MotorTimer.reset();
 			MotorTimer.start();
+			
 		}
-		if (pointB.isNewPressed()) {
-			System.out.println("B Button Pressed at: " + currentTime + " seconds from the start of the robot, " + (currentTime - lastTime) + " since last press of a button");
+		else if (pointB.isNewPressed()) {
+			
+			logButtonPress ("B", currentTime);
 			lastTime = currentTime;
 			
-			marble = MARBLE_LOCATION.BC;
+			setMarbleLocation (MARBLE_LOCATION.BC);
+			
+			//When marble reaches point B, start the timer so that the servo waits a given amount of time and then turns to a different location (to drop the marble)
 			ServoTimer.reset();
 			ServoTimer.start();
+			
 		}
-		if (pointC.isNewPressed()) {
-			System.out.println("C Button Pressed at: " + currentTime + " seconds from the start of the robot, " + (currentTime - lastTime) + " since last press of a button");
+		else if (pointC.isNewPressed()) {
+			
+			logButtonPress ("C1", currentTime);
 			lastTime = currentTime;
 			
-			marble = MARBLE_LOCATION.CD;
+			setMarbleLocation (MARBLE_LOCATION.CD);
+			
 		}
-		if (pointD.isNewPressed()) {
-			System.out.println("D Button Pressed at: " + currentTime + " seconds from the start of the robot, " + (currentTime - lastTime) + " since last press of a button");
+		else if (pointD.isNewPressed()) {
+			
+			logButtonPress ("C2", currentTime);
 			lastTime = currentTime;
 			
-			marble = MARBLE_LOCATION.DE;
+			setMarbleLocation (MARBLE_LOCATION.DE);
+			
 		}
-		if (pointE.isNewPressed()) {
-			System.out.println("E Button Pressed at: " + currentTime + " seconds from the start of the robot, " + (currentTime - lastTime) + " since last press of a button");
+		else if (pointE.isNewPressed()) {
+			
+			logButtonPress ("D", currentTime);
 			lastTime = currentTime;
 			
-			marble = MARBLE_LOCATION.EA;
+			setMarbleLocation (MARBLE_LOCATION.EA);
+			
 		}
 		
 		setMotors(); //Update motors
@@ -129,6 +144,7 @@ public class Robot extends IterativeRobot {
 	
 	/**
 	 * Sets the motors to the correct position based on the marble variable
+	 * (Main motor and Servo)
 	 */
 	private void setMotors() {
 		
@@ -167,6 +183,31 @@ public class Robot extends IterativeRobot {
 			
 		}
 		
+	}
+	
+	/**
+	 * Returns the location of the marble
+	 * @return
+	 */
+	public MARBLE_LOCATION getMarbleLocation() {
+		return marble;
+	}
+	
+	/**
+	 * Sets the marble location to the new location
+	 * @param newLocation
+	 */
+	public void setMarbleLocation (MARBLE_LOCATION newLocation) {
+		marble = newLocation;
+	}
+	
+	/**
+	 * Logs the press of the given button at a given time
+	 * @param buttonName
+	 * @param currentTime
+	 */
+	public void logButtonPress (String buttonName, double currentTime) {
+		System.out.println(buttonName + " Button Pressed at: " + currentTime + " seconds from the start of the robot, " + (currentTime - lastTime) + " since last press of a button");
 	}
 
 }

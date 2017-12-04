@@ -1,5 +1,10 @@
 package org.usfirst.frc.team4338.robot;
 
+/**
+ * Debounces a boolean so that isNewPressed only returns true when current state goes from false to true
+ * @author Orian Leitersdorf
+ *
+ */
 public class DebouncedBoolean {
 	
 	/** The previous state of the button **/
