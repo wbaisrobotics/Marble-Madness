@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4338.robot;
 
+import org.usfirst.frc.team4338.robot.Marble.LOCATIONS;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
@@ -13,15 +15,12 @@ import edu.wpi.first.wpilibj.Victor;
  *
  */
 public class Robot extends IterativeRobot {
+	
+	private Marble marble;
 
+	private Lift lift; /** The system representing the Lift **/
 
-	public static enum MARBLE_LOCATION {STILL_NOT_PLACED, AF, FB, BA, FINISHED}; /** The possible locations that the marble could be in (F representing between A and B stopping **/
-	private MARBLE_LOCATION marble; /** Object representing the marbles current location **/
-
-
-	private Lift lift;
-
-	private Servo servo; /** The servo motor used in the center **/
+	private Servo servo; /** The Servo motor used in the center **/
 
 	private DebouncedDigitalInput start; /** The button which starts everything **/
 	private DebouncedDigitalInput pointA; /** The button at point A **/
@@ -38,6 +37,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		
+		marble = new Marble();
 
 		lift = new Lift (new Victor (Constants.LIFT_MOTOR_PORT));
 
@@ -69,7 +70,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopInit () {
 
-		setMarbleLocation (MARBLE_LOCATION.STILL_NOT_PLACED); //Reset the marble's position
+		marble.setLocation (LOCATIONS.STILL_NOT_PLACED); //Reset the marble's position
 
 		setMotors(); //Change the motors accordingly
 
@@ -90,7 +91,7 @@ public class Robot extends IterativeRobot {
 			logButtonPress ("Start", currentTime);
 			lastTime = currentTime;
 
-			setMarbleLocation (MARBLE_LOCATION.AF);
+			marble.setLocation (LOCATIONS.AF);
 
 			//When marble reaches point A, start the timer so that the motor waits a given amount of time and then start the motor
 			MotorTimer.reset();
@@ -102,7 +103,7 @@ public class Robot extends IterativeRobot {
 			logButtonPress ("B", currentTime);
 			lastTime = currentTime;
 
-			setMarbleLocation (MARBLE_LOCATION.BA);
+			marble.setLocation (LOCATIONS.BA);
 
 			//When marble reaches point B, start the timer so that the servo waits a given amount of time and then turns to a different location (to drop the marble)
 			ServoTimer.reset();
@@ -114,7 +115,7 @@ public class Robot extends IterativeRobot {
 			logButtonPress ("Finish", currentTime);
 			lastTime = currentTime;
 
-			setMarbleLocation (MARBLE_LOCATION.FINISHED);
+			marble.setLocation (LOCATIONS.FINISHED);
 
 
 		}
@@ -130,7 +131,7 @@ public class Robot extends IterativeRobot {
 	 */
 	private void setMotors() {
 
-		switch (getMarbleLocation()) {
+		switch (marble.getLocation()) {
 
 		case STILL_NOT_PLACED:
 			lift.stop();
@@ -142,7 +143,7 @@ public class Robot extends IterativeRobot {
 				lift.moveSlowly();
 			}
 			else {
-				setMarbleLocation (MARBLE_LOCATION.FB);
+				marble.setLocation (LOCATIONS.FB);
 				MotorTimer.reset();
 				MotorTimer.start();
 			}
@@ -170,22 +171,6 @@ public class Robot extends IterativeRobot {
 			servo.set(Constants.SERVO_INITIAL_POSITION);
 		}
 
-	}
-
-	/**
-	 * Returns the location of the marble
-	 * @return
-	 */
-	public MARBLE_LOCATION getMarbleLocation() {
-		return marble;
-	}
-
-	/**
-	 * Sets the marble location to the new location
-	 * @param newLocation
-	 */
-	public void setMarbleLocation (MARBLE_LOCATION newLocation) {
-		marble = newLocation;
 	}
 
 	/**
