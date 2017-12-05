@@ -27,8 +27,8 @@ public class Robot extends IterativeRobot {
 
 	/** The button which starts everything **/
 	private DebouncedDigitalInput start; 
-	/** The button at point A (Return) **/
-	private DebouncedDigitalInput pointA;
+	/** The button at finish **/
+	private DebouncedDigitalInput finish;
 	/** The button at point B **/
 	private DebouncedDigitalInput pointB; 
 
@@ -42,9 +42,9 @@ public class Robot extends IterativeRobot {
 
 		servo = new Servo (Constants.SERVO_PORT);
 
-		pointA = new DebouncedDigitalInput (Constants.A_BUTTON_PORT);
-		pointB = new DebouncedDigitalInput (Constants.B_BUTTON_PORT);
 		start = new DebouncedDigitalInput (Constants.START_BUTTON_PORT);
+		pointB = new DebouncedDigitalInput (Constants.B_BUTTON_PORT);
+		finish = new DebouncedDigitalInput (Constants.A_BUTTON_PORT);
 
 	}
 
@@ -71,8 +71,8 @@ public class Robot extends IterativeRobot {
 		else if (pointB.isNewPressed()) {
 			marble.bPressed();
 		}
-		else if (pointA.isNewPressed()) {
-			marble.aPressed();
+		else if (finish.isNewPressed()) {
+			marble.finishedPressed();
 		}
 
 		updateMotors(); 

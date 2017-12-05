@@ -10,7 +10,7 @@ import java.util.TimerTask;
  */
 public class Marble {
 	
-	/** The possible locations that the marble could be in (F representing between A and B stopping) (E representing between B and A at Servo) **/
+	/** The possible locations that the marble could be in (F representing between A and B stopping) (E representing between B and Finish at Servo) **/
 	public static enum LOCATIONS {STILL_NOT_PLACED, AF, F, FB, BE, EA, FINISHED}; 
 	/** Object representing the marbles current location **/
 	private LOCATIONS location; 
@@ -83,9 +83,9 @@ public class Marble {
 	}
 	
 	/**
-	 * Should be called when the A (return) button is pressed, only call once
+	 * Should be called when the Finish button is pressed, only call once
 	 */
-	public void aPressed() {
+	public void finishedPressed() {
 		
 		long currentTime = System.currentTimeMillis();
 		long currentTimeFromStart = currentTime - startTime;
