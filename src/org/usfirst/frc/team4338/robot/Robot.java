@@ -161,8 +161,6 @@ public class Robot extends IterativeRobot {
 			}
 			else {
 				motor.set(Constants.MOTOR_AB_SPEED_AFTER_TIMEOUT);
-				MotorTimer.stop();
-				MotorTimer.reset();
 			}
 			break;
 		case BC:
@@ -172,8 +170,6 @@ public class Robot extends IterativeRobot {
 			}
 			else {
 				servo.set(Constants.SERVO_BC_POSITION_AFTER_TIMEOUT);
-				ServoTimer.stop();
-				ServoTimer.reset();
 			}
 			break;
 		case CD: case DE: case EA:

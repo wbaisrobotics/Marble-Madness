@@ -24,7 +24,7 @@ public class Constants {
 	
 	public static final double MOTOR_AB_TIMEOUT = 4.5; //Before the timeout passes go at BEFORE_TIMEOUT, after timeout passes go at AFTER_TIMEOUT
 	public static final double MOTOR_AB_SPEED_BEFORE_TIMEOUT = 0; //Don't turn until timeout ends
-	public static final double MOTOR_AB_SPEED_AFTER_TIMEOUT = 0.1; //Turn slowly once timeout ends
+	public static final double MOTOR_AB_SPEED_AFTER_TIMEOUT = -0.3; //Turn slowly once timeout ends
 	
 	public static final double MOTOR_BE_SPEED = 0;
 	
