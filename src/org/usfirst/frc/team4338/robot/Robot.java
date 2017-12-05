@@ -4,6 +4,8 @@ package org.usfirst.frc.team4338.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Practice Competition - Marble Game 
  * 
@@ -53,7 +55,7 @@ public class Robot extends IterativeRobot {
 
 		marble = new Marble();
 
-		updateMotors(); //Change the motors accordingly
+		updateMotors();
 
 	}
 
@@ -118,10 +120,26 @@ public class Robot extends IterativeRobot {
 		case FINISHED:
 			lift.stop();
 			servo.set(Constants.SERVO_INITIAL_POSITION);
+			break;
+			
 		}
 
 	}
 
+	/**
+	 * Initializes test code for changing the position of the servo
+	 */
+	public void testInit() {
+		lift.stop();
+		SmartDashboard.putNumber(Constants.TESTING_MODE_SERVO_KEY, Constants.SERVO_INITIAL_POSITION);
+	}
+	
+	/**
+	 * Updates the servo's position to that given by the SmartDashboard
+	 */
+	public void testPeriodic() {
+		servo.set(SmartDashboard.getNumber(Constants.TESTING_MODE_SERVO_KEY, Constants.SERVO_INITIAL_POSITION));
+	}
 
 
 }
