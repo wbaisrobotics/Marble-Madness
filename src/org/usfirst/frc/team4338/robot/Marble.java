@@ -16,8 +16,8 @@ public class Marble {
 	private LOCATIONS location; 
 	
 	private static final long LIFT_AF_LENGTH = 300;
-	private static final long LIFT_F_TIMEOUT = 450;
-	private static final long SERVO_TIMEOUT_BA = 900;
+	private static final long LIFT_F_TIMEOUT = 4000;
+	private static final long SERVO_TIMEOUT_BA = 9000;
 	
 	/** Last time that a button was clicked **/
 	private long startTime;
@@ -48,7 +48,7 @@ public class Marble {
 		long currentTime = System.currentTimeMillis();
 		long currentTimeFromStart = currentTime - startTime;
 		
-		logButtonPress ("Start", currentTimeFromStart);
+		logButtonPress ("Start", currentTimeFromStart, currentTime - lastTime);
 		lastTime = currentTime;
 
 		setLocation (LOCATIONS.AF);
@@ -69,7 +69,7 @@ public class Marble {
 		long currentTime = System.currentTimeMillis();
 		long currentTimeFromStart = currentTime - startTime;
 		
-		logButtonPress ("B", currentTimeFromStart);
+		logButtonPress ("B", currentTimeFromStart, currentTime - lastTime);
 		lastTime = currentTime;
 
 		setLocation (LOCATIONS.BE);
@@ -90,7 +90,7 @@ public class Marble {
 		long currentTime = System.currentTimeMillis();
 		long currentTimeFromStart = currentTime - startTime;
 		
-		logButtonPress ("Finish", currentTimeFromStart);
+		logButtonPress ("Finish", currentTimeFromStart, currentTime - lastTime);
 		lastTime = currentTime;
 
 		setLocation (LOCATIONS.FINISHED);
@@ -153,8 +153,8 @@ public class Marble {
 	 * @param buttonName
 	 * @param currentTime
 	 */
-	public void logButtonPress (String buttonName, double currentTime) {
-		System.out.println(buttonName + " Button Pressed at: " + currentTime + " seconds from the start of the robot, " + (currentTime - lastTime) + " since last press of a button");
+	public void logButtonPress (String buttonName, long fromStart, long difference) {
+		System.out.println(buttonName + " Button Pressed at: " + fromStart + " milliseconds from the start of the robot, " + difference + " since last press of a button");
 	}
 	
 	
