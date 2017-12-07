@@ -15,8 +15,8 @@ public class Marble {
 	/** Object representing the marbles current location **/
 	private LOCATIONS location; 
 	
-	private static final long LIFT_AF_LENGTH = 300;
-	private static final long LIFT_F_TIMEOUT = 4000;
+	private static final long LIFT_AF_LENGTH = 50;
+	private static final long LIFT_F_TIMEOUT = 4500;
 	private static final long SERVO_TIMEOUT_BA = 9000;
 	
 	/** Last time that a button was clicked **/

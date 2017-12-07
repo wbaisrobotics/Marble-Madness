@@ -18,8 +18,8 @@ public class Constants {
 	
 	
 	/** Desired Values - Servo Motor **/
-	public static final double SERVO_INITIAL_POSITION = 0;
-	public static final double SERVO_FINAL_POSITION = 0.5;
+	public static final double SERVO_INITIAL_POSITION = 0.5;
+	public static final double SERVO_FINAL_POSITION = 0;
 	
 	public static final String TESTING_MODE_SERVO_KEY = "Servo Location";
 	
