@@ -6,7 +6,7 @@ public class Lift {
 
 	private static final double MOTOR_STOP_SPEED = 0; //Don't turn until timeout ends
 	private static final double MOTOR_SLOW_SPEED = -0.2; //Turn slowly once timeout ends
-	private static final double MOTOR_FAST_SPEED = -0.6; //Turn slowly once timeout ends
+	private static final double MOTOR_FAST_SPEED = -0.5; //Turn slowly once timeout ends
 	
 	private SpeedController liftMotor; //The motor which turns the lift
 	
